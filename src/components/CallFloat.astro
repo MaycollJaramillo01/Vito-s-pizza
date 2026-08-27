@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site';
+
+const tel = `tel:${site.phone.replace(/\s/g, '')}`;
+---
+
+<a class="call-float" href={tel} aria-label={`Call to order — ${site.phone}`}>
+  <span class="call-float-pizza" aria-hidden="true">
+    <img src="/media/pizza-float.png" alt="" width="36" height="36" />
+  </span>
+  <span class="call-float-text">
+    <strong>Call to Order</strong>
+    <span>{site.phone}</span>
+  </span>
+</a>
