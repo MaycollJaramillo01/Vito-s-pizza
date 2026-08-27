@@ -1,11 +1,41 @@
 ---
 const categories = [
-  { label: 'Pizza', href: '/menu/?cat=pizza' },
-  { label: 'Subs', href: '/menu/?cat=subs' },
-  { label: 'Wings', href: '/menu/?cat=wings' },
-  { label: 'Pasta', href: '/menu/?cat=pasta' },
-  { label: 'Salads', href: '/menu/?cat=salads' },
-  { label: 'Desserts', href: '/menu/?cat=desserts' },
+  {
+    label: 'Pizza',
+    href: '/menu/?cat=pizza',
+    image: '/media/dishes/grandma.jpg',
+    size: 'lg',
+  },
+  {
+    label: 'Subs',
+    href: '/menu/?cat=subs',
+    image: '/media/dishes/cheesesteak.jpg',
+    size: 'md',
+  },
+  {
+    label: 'Wings',
+    href: '/menu/?cat=wings',
+    image: '/media/dishes/wings.jpg',
+    size: 'md',
+  },
+  {
+    label: 'Pasta',
+    href: '/menu/?cat=pasta',
+    image: '/media/gallery/4.jpg',
+    size: 'sm',
+  },
+  {
+    label: 'Salads',
+    href: '/menu/?cat=salads',
+    image: '/media/gallery/8.jpg',
+    size: 'sm',
+  },
+  {
+    label: 'Desserts',
+    href: '/menu/?cat=desserts',
+    image: '/media/gallery/11.jpg',
+    size: 'sm',
+  },
 ];
 ---
 
@@ -16,11 +46,17 @@ const categories = [
       <h2>Pizza, subs, wings — the whole shop in one place.</h2>
       <p class="lead">Jump a category. Full prices and sizes live on the menu.</p>
     </div>
-    <div class="category-grid reveal">
+    <div class="bento-bauhaus" role="list">
       {
         categories.map((cat) => (
-          <a class="category-card" href={cat.href}>
-            <span>{cat.label}</span>
+          <a
+            class={`bento-tile bento-${cat.size}`}
+            href={cat.href}
+            role="listitem"
+            aria-label={cat.label}
+          >
+            <img src={cat.image} alt="" width="800" height="600" loading="lazy" />
+            <span class="bento-label">{cat.label}</span>
           </a>
         ))
       }
