@@ -1,0 +1,163 @@
+---
+import { site, nav } from '../data/site';
+
+interface Props {
+  current?: string;
+}
+
+const { current = '/' } = Astro.props;
+---
+
+<header class="site-header" data-header>
+  <div class="container">
+    <a class="logo" href="/" aria-label={`${site.name} home`} data-header-logo>
+      <img class="logo-for-dark" src={site.logo} alt="" width="160" height="133" />
+      <img class="logo-for-light" src={site.logoDark} alt="" width="160" height="133" />
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav" id="site-nav" data-nav aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header-actions">
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        aria-label="Switch to light mode"
+        title="Toggle color theme"
+      >
+        <span class="theme-icon theme-icon-sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+        </span>
+        <span class="theme-icon theme-icon-moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"></path>
+          </svg>
+        </span>
+      </button>
+      <a class="btn header-cta" href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order Online</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const nav = document.querySelector('[data-nav]');
+  const heroLogo = document.querySelector('.hero-logo');
+  const headerLogo = document.querySelector('[data-header-logo]');
+  const themeBtn = document.querySelector('[data-theme-toggle]');
+  const KEY = 'vitos-theme';
+
+  const onScroll = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  function setPastHeroLogo(past) {
+    header?.classList.toggle('is-past-hero', past);
+    if (!headerLogo) return;
+    if (past) {
+      headerLogo.removeAttribute('aria-hidden');
+      headerLogo.removeAttribute('tabindex');
+    } else {
+      headerLogo.setAttribute('aria-hidden', 'true');
+      headerLogo.setAttribute('tabindex', '-1');
+    }
+  }
+
+  if (heroLogo && header) {
+    const headerH = header.getBoundingClientRect().height;
+    const logoWatch = new IntersectionObserver(
+      ([entry]) => {
+        setPastHeroLogo(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: `-${headerH}px 0px 0px 0px` }
+    );
+    logoWatch.observe(heroLogo);
+    setPastHeroLogo(heroLogo.getBoundingClientRect().bottom <= headerH);
+  } else {
+    setPastHeroLogo(true);
+  }
+
+  function setNavOpen(open) {
+    nav?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) {
+      const first = nav?.querySelector('a');
+      first?.focus();
+    }
+  }
+
+  toggle?.addEventListener('click', () => {
+    const open = !nav?.classList.contains('is-open');
+    setNavOpen(open);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+      setNavOpen(false);
+      toggle?.focus();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!nav?.classList.contains('is-open')) return;
+    const target = e.target;
+    if (target instanceof Node && !header?.contains(target)) {
+      setNavOpen(false);
+    }
+  });
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  function syncThemeButton() {
+    const theme = currentTheme();
+    themeBtn?.setAttribute(
+      'aria-label',
+      theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+    );
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(KEY, theme);
+    } catch {
+      /* ignore */
+    }
+    syncThemeButton();
+  }
+
+  themeBtn?.addEventListener('click', () => {
+    setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  });
+  syncThemeButton();
+</script>

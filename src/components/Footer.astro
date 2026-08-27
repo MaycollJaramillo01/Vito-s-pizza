@@ -1,0 +1,65 @@
+---
+import { site, menuCategories } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="/">
+          <img class="logo-for-dark" src={site.logo} alt={site.name} width="160" height="133" />
+          <img class="logo-for-light" src={site.logoDark} alt={site.name} width="160" height="133" />
+        </a>
+        <p class="footer-blurb">
+          Pizza, pastas, subs & salads at 265 Cumberland Pkwy. Pickup, delivery, and catering.
+        </p>
+      </div>
+
+      <div>
+        <h3>Menu</h3>
+        <ul>
+          {menuCategories.slice(0, 6).map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3>Visit</h3>
+        <ul>
+          <li><a href="/about-us/">About</a></li>
+          <li><a href="/menu/">Menu</a></li>
+          <li><a href="/catering/">Catering</a></li>
+          <li><a href="/contact-us/">Contact</a></li>
+          <li><a href="/join-us/">Careers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>
+          <li>
+            <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+              {site.address}<br />{site.addressLine2}
+            </a>
+          </li>
+          <li>
+            <a href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order Online</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Copyright © {new Date().getFullYear()} {site.name}. Design demo — ordering via Slice.</p>
+      <div class="footer-legal">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-and-conditions/">Terms & Conditions</a>
+        <a href="/cookies-policy/">Cookies Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>

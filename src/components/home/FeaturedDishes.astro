@@ -1,0 +1,34 @@
+---
+import { dishes } from '../../data/site';
+---
+
+<section class="section featured-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Popular Right Now</p>
+      <h2>Customer <span class="accent">Favorites.</span></h2>
+      <p class="lead">
+        The pies and plates people actually reorder — not an out-of-stock salad holding the home page.
+      </p>
+    </div>
+
+    <div class="featured-grid reveal">
+      {
+        dishes.map((dish) => (
+          <article class="featured-card">
+            <div class="featured-card-media">
+              <img src={dish.image} alt={dish.name} width="640" height="800" loading="lazy" />
+              <span class="featured-card-price">{dish.price}</span>
+            </div>
+            <h3>{dish.name}</h3>
+            <p>{dish.description}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="stack-lg reveal">
+      <a class="btn" href="/menu/">View Full Menu</a>
+    </div>
+  </div>
+</section>

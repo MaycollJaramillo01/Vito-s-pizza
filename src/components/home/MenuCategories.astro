@@ -1,0 +1,29 @@
+---
+const categories = [
+  { label: 'Pizza', href: '/menu/?cat=pizza' },
+  { label: 'Subs', href: '/menu/?cat=subs' },
+  { label: 'Wings', href: '/menu/?cat=wings' },
+  { label: 'Pasta', href: '/menu/?cat=pasta' },
+  { label: 'Salads', href: '/menu/?cat=salads' },
+  { label: 'Desserts', href: '/menu/?cat=desserts' },
+];
+---
+
+<section class="section categories-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Explore Our Menu</p>
+      <h2>Pizza, subs, wings — the whole shop in one place.</h2>
+      <p class="lead">Jump a category. Full prices and sizes live on the menu.</p>
+    </div>
+    <div class="category-grid reveal">
+      {
+        categories.map((cat) => (
+          <a class="category-card" href={cat.href}>
+            <span>{cat.label}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

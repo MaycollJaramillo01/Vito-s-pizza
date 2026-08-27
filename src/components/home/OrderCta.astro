@@ -1,0 +1,11 @@
+---
+import { orderCta } from '../../data/site';
+---
+
+<section class="band order-band">
+  <div class="container band-inner reveal">
+    <h2>Hungry now? Order <span class="accent">pickup or delivery.</span></h2>
+    <p class="lead">{orderCta.body}</p>
+    <a class="btn" href={orderCta.href} target="_blank" rel="noopener noreferrer">{orderCta.cta}</a>
+  </div>
+</section>

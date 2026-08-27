@@ -1,0 +1,25 @@
+---
+import { site, cateringUseCases } from '../../data/site';
+---
+
+<section class="hiring catering-band">
+  <div class="hiring-media" aria-hidden="true">
+    <img src={site.hiringBg} alt="" width="1600" height="1067" loading="lazy" />
+  </div>
+  <div class="container hiring-inner reveal">
+    <div class="hiring-panel">
+      <p class="eyebrow">Catering in Mechanicsburg</p>
+      <h2>Feed the office, the team, the party.</h2>
+      <p>
+        Salad trays, cold subs, wraps, and pasta — built for groups, not leftover slices on a napkin.
+      </p>
+      <ul class="catering-chips">
+        {cateringUseCases.map((item) => <li>{item}</li>)}
+      </ul>
+      <div class="hero-actions">
+        <a class="btn" href="/catering/">View Catering</a>
+        <a class="btn btn-ghost" href={`tel:${site.phone.replace(/\s/g, '')}`}>Call for Catering</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, cateringUseCases } from '../data/site';
+
+const trays = [
+  { name: 'House Salad Catering', price: '$70.00', description: 'Tomatoes, onions, sweet peppers & mozzarella.' },
+  { name: 'Caesar Salad Catering', price: '$70.00', description: 'Romaine, croutons & shaved parmesan.' },
+  { name: 'Greek Salad Catering', price: '$70.00', description: 'Kalamata olives & feta.' },
+  { name: 'BBQ Grilled Chicken Salad Catering', price: '$75.00' },
+  { name: 'Pittsburgh Salad Catering', price: '$85.00', description: 'Steak & fries.' },
+  { name: 'Grilled Chicken Bacon Ranch Catering', price: '$85.00' },
+  { name: 'Chef Salad Catering', price: '$75.00', description: 'Turkey, ham & provolone.' },
+  { name: 'Crispy Buffalo Chicken Salad Catering', price: '$85.00' },
+];
+---
+
+<SiteLayout
+  title={`Catering – ${site.name}`}
+  description="Pizza and Italian catering in Mechanicsburg, PA. Salad trays, subs, wraps, and pasta for offices, teams, and parties."
+  current="/catering/"
+>
+  <PageHero
+    eyebrow="Catering"
+    title='Pizza & Italian catering in <span class="accent">Mechanicsburg, PA.</span>'
+    lead="Office lunches, rec-league wins, birthdays, family tables — trays that actually feed a group."
+  >
+    <div class="hero-actions stack-lg">
+      <a class="btn" href={`tel:${site.phone.replace(/\s/g, '')}`}>Call for Catering</a>
+      <a class="btn btn-ghost" href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order Online</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Built for groups</p>
+        <h2>Who it’s for</h2>
+      </div>
+      <ul class="catering-chips reveal">
+        {cateringUseCases.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-tight-top">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Catering menu</p>
+        <h2>Salad trays to start</h2>
+        <p class="lead">
+          A sample of catering salads from the current menu. Subs, wraps, and pasta trays are available when you call or order.
+        </p>
+      </div>
+      <div class="menu-items reveal">
+        {
+          trays.map((item) => (
+            <article class="menu-item">
+              <div class="menu-item-top">
+                <h3>{item.name}</h3>
+                <span class="menu-item-price">{item.price}</span>
+              </div>
+              {item.description && <p>{item.description}</p>}
+            </article>
+          ))
+        }
+      </div>
+      <p class="menu-footnote reveal">
+        Want pizza trays, subs, or pasta for a crowd? Call{' '}
+        <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a>.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,72 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ArchFrame from '../components/ArchFrame.astro';
+import { site, positions } from '../data/site';
+---
+
+<SiteLayout
+  title={`Join Us – ${site.name}`}
+  description={`Careers at ${site.name} in Mechanicsburg, PA.`}
+  current="/join-us/"
+>
+  <PageHero
+    eyebrow="Careers"
+    title='Work at <span class="accent">Vito’s.</span>'
+    lead="Kitchen, counter, and drivers. This page is part of the redesign demo — apply by calling the shop."
+  />
+
+  <section class="section">
+    <div class="container form-narrow">
+      <ArchFrame class="form-frame reveal">
+        <form class="form form-in-arch" data-demo-form>
+          <p class="form-notice">
+            Demo form — applications aren’t submitted here. Call{' '}
+            <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a> to apply.
+          </p>
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" required />
+            </div>
+            <div class="field">
+              <label for="position">Position</label>
+              <select id="position" name="position" required>
+                <option value="">Select a role</option>
+                {positions.map((p) => <option value={p}>{p}</option>)}
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us a little about yourself" required></textarea>
+          </div>
+          <button class="btn" type="submit">Submit Application</button>
+          <p class="form-success" data-demo-success hidden>
+            Demo only — call {site.phone} to apply.
+          </p>
+        </form>
+      </ArchFrame>
+    </div>
+  </section>
+</SiteLayout>
+
+<script>
+  document.querySelectorAll('[data-demo-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const note = form.querySelector('[data-demo-success]');
+      if (note) note.hidden = false;
+    });
+  });
+</script>

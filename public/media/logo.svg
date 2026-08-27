@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" fill="none" role="img" aria-label="Vito's Pizza">
+  <!-- Vito's script -->
+  <text
+    x="260"
+    y="118"
+    text-anchor="middle"
+    fill="#F5F2EC"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="92"
+    font-style="italic"
+    font-weight="500"
+    letter-spacing="2"
+  >Vito’s</text>
+
+  <!-- PIZZA word with gap for slice -->
+  <text
+    x="118"
+    y="210"
+    text-anchor="middle"
+    fill="#F5F2EC"
+    font-family="Arial Black, Helvetica Neue, Arial, sans-serif"
+    font-size="78"
+    font-weight="900"
+    letter-spacing="6"
+  >P</text>
+  <text
+    x="318"
+    y="210"
+    text-anchor="middle"
+    fill="#F5F2EC"
+    font-family="Arial Black, Helvetica Neue, Arial, sans-serif"
+    font-size="78"
+    font-weight="900"
+    letter-spacing="4"
+  >ZZA</text>
+
+  <!-- Pizza slice replacing the I -->
+  <g transform="translate(188 128)">
+    <!-- crust -->
+    <path d="M36 12 L72 108 L0 108 Z" fill="#F4B223"/>
+    <path d="M36 12 L72 108 L0 108 Z" fill="none" stroke="#C48A2A" stroke-width="3"/>
+    <!-- toppings -->
+    <circle cx="28" cy="70" r="4.5" fill="#1a1208"/>
+    <circle cx="46" cy="78" r="4.5" fill="#1a1208"/>
+    <circle cx="36" cy="92" r="4" fill="#1a1208"/>
+    <!-- pepperoni / i-dot -->
+    <circle cx="36" cy="8" r="11" fill="#D62828"/>
+  </g>
+
+  <!-- Italian flag swoosh -->
+  <path d="M70 240 C160 252, 260 228, 450 242" stroke="#009246" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M70 240 C160 252, 260 228, 450 242" stroke="#F5F2EC" stroke-width="3.5" stroke-linecap="round" fill="none" stroke-dasharray="0 130 140 999"/>
+  <path d="M70 240 C160 252, 260 228, 450 242" stroke="#D62828" stroke-width="3.5" stroke-linecap="round" fill="none" stroke-dasharray="0 270 200 999"/>
+
+  <!-- Tagline -->
+  <text
+    x="260"
+    y="290"
+    text-anchor="middle"
+    fill="#F5F2EC"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="22"
+  >Pizza, pastas, subs &amp; salads</text>
+</svg>

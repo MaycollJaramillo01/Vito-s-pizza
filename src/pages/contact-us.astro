@@ -1,0 +1,118 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ArchFrame from '../components/ArchFrame.astro';
+import { site, hours } from '../data/site';
+
+const mapQuery = encodeURIComponent(`${site.address} ${site.addressLine2}`);
+---
+
+<SiteLayout
+  title={`Contact Us – ${site.name}`}
+  description={`Visit or call ${site.name} at 265 Cumberland Pkwy, Mechanicsburg, PA. Pickup, delivery, and catering.`}
+  current="/contact-us/"
+>
+  <PageHero
+    eyebrow="Find Us"
+    title='Visit Vito’s in <span class="accent">Mechanicsburg.</span>'
+    lead="Pickup at the shop, delivery through online order, or a call if you want a person on the line."
+  />
+
+  <section class="section section-tight">
+    <div class="container">
+      <p class="reservation-note reveal" role="note">
+        <strong>Order:</strong>
+        <a href={site.orderUrl} target="_blank" rel="noopener noreferrer">Online for pickup or delivery</a>
+        · Call <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="meta-list reveal">
+        <div>
+          <h3>Phone</h3>
+          <p><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></p>
+        </div>
+        <div>
+          <h3>Location</h3>
+          <p>
+            <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+              {site.address}<br />{site.addressLine2}
+            </a>
+          </p>
+        </div>
+        <div>
+          <h3>Hours</h3>
+          {
+            hours.map((row) => (
+              <p>
+                {row.day}: {row.value}
+              </p>
+            ))
+          }
+        </div>
+        <ArchFrame class="map-frame">
+          <div class="map">
+            <iframe
+              title="Vito’s Pizza location"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src={`https://maps.google.com/maps?q=${mapQuery}&t=m&z=15&output=embed&iwloc=near`}
+            ></iframe>
+          </div>
+        </ArchFrame>
+      </div>
+
+      <div class="reveal">
+        <ArchFrame class="form-frame">
+          <form class="form form-in-arch" data-demo-form>
+            <p class="form-notice">
+              This is a design demo. Messages aren’t sent from this page — call{' '}
+              <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a> to reach the shop.
+            </p>
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your full name" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="Email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" placeholder="Phone number" required />
+              </div>
+              <div class="field">
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" type="text" placeholder="Catering, hours, etc." required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Message" required></textarea>
+            </div>
+            <button class="btn" type="submit">Send Message</button>
+            <p class="form-success" data-demo-success hidden>
+              Demo only — call {site.phone} and we’ll take it from there.
+            </p>
+          </form>
+        </ArchFrame>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<script>
+  document.querySelectorAll('[data-demo-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const note = form.querySelector('[data-demo-success]');
+      if (note) note.hidden = false;
+    });
+  });
+</script>

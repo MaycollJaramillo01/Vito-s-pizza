@@ -1,0 +1,109 @@
+---
+import { site, hours } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image = site.ogImage,
+  type = 'website',
+  noindex = true,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+const phoneDigits = site.phone.replace(/[^\d+]/g, '');
+
+const dayMap: Record<string, string> = {
+  Monday: 'Monday',
+  Tuesday: 'Tuesday',
+  Wednesday: 'Wednesday',
+  Thursday: 'Thursday',
+  Friday: 'Friday',
+  Saturday: 'Saturday',
+  Sunday: 'Sunday',
+};
+
+function hoursSpec() {
+  return hours
+    .filter((h) => h.value !== 'Closed')
+    .map((h) => {
+      const [open, close] = h.value.replace(/\s/g, '').split('–');
+      const to24 = (t: string) => {
+        const m = t.match(/(\d+):(\d+)(AM|PM)/i);
+        if (!m) return '10:00';
+        let hr = parseInt(m[1], 10);
+        const min = m[2];
+        const ap = m[3].toUpperCase();
+        if (ap === 'PM' && hr !== 12) hr += 12;
+        if (ap === 'AM' && hr === 12) hr = 0;
+        return `${String(hr).padStart(2, '0')}:${min}`;
+      };
+      return {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: dayMap[h.day],
+        opens: to24(open),
+        closes: to24(close),
+      };
+    });
+}
+
+const restaurantSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  telephone: phoneDigits,
+  image: ogImage,
+  servesCuisine: ['Pizza', 'Italian', 'Sandwiches'],
+  priceRange: '$$',
+  menu: new URL('/menu/', site.url).href,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address,
+    addressLocality: 'Mechanicsburg',
+    addressRegion: 'PA',
+    postalCode: '17055',
+    addressCountry: 'US',
+  },
+  openingHoursSpecification: hoursSpec(),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    bestRating: '5',
+    ratingCount: '1000',
+  },
+};
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href={site.favicon} type="image/png" />
+<link rel="apple-touch-icon" href={site.favicon} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(restaurantSchema)} />

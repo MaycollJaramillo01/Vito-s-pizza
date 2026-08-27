@@ -1,0 +1,135 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import { menuCategoriesFull } from '../data/menu';
+---
+
+<SiteLayout
+  title={`Menu – ${site.name}`}
+  description="Pizza, Grandma pie, cheesesteaks, wings, pasta, gluten-free options, and more from Vito’s Pizza in Mechanicsburg, PA."
+  current="/menu/"
+>
+  <PageHero
+    eyebrow="Our Menu"
+    title='Pizza, subs & Italian favorites in <span class="accent">Mechanicsburg.</span>'
+    lead="Browse by category. Order online for pickup or delivery — this demo shows the shop, not a rebuilt checkout."
+  >
+    <div class="hero-actions stack-lg">
+      <a class="btn" href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order Online</a>
+    </div>
+  </PageHero>
+
+  <section class="section menu-page">
+    <div class="container">
+      <p class="menu-disclaimer reveal">
+        Representative menu for this redesign demo. Sizes, toppings, and live availability are on the
+        current order system. Prices shown as “from” the smallest listed size.
+      </p>
+
+      <div class="menu-tabs reveal" data-menu-tabs>
+        <label class="menu-select-label" for="menu-category">Category</label>
+        <select class="menu-select" id="menu-category" data-menu-select aria-label="Menu categories">
+          {
+            menuCategoriesFull.map((cat, i) => (
+              <option value={cat.id} selected={i === 0}>
+                {cat.label}
+              </option>
+            ))
+          }
+        </select>
+
+        <div class="menu-tablist" role="tablist" aria-label="Menu categories">
+          {
+            menuCategoriesFull.map((cat, i) => (
+              <button
+                type="button"
+                class:list={['menu-tab', i === 0 && 'is-active']}
+                role="tab"
+                id={`tab-${cat.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-controls={`panel-${cat.id}`}
+                data-tab={cat.id}
+              >
+                {cat.label}
+              </button>
+            ))
+          }
+        </div>
+
+        {
+          menuCategoriesFull.map((cat, i) => (
+            <div
+              class:list={['menu-panel', i === 0 && 'is-active']}
+              role="tabpanel"
+              id={`panel-${cat.id}`}
+              aria-labelledby={`tab-${cat.id}`}
+              data-panel={cat.id}
+              hidden={i !== 0}
+            >
+              {cat.note && <p class="menu-note">{cat.note}</p>}
+              <div class="menu-items">
+                {cat.items.map((item) => (
+                  <article class="menu-item">
+                    <div class="menu-item-top">
+                      <h3>{item.name}</h3>
+                      <span class="menu-item-price">{item.price}</span>
+                    </div>
+                    {item.description && <p>{item.description}</p>}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="menu-footnote reveal">
+        Questions about gluten-free prep or catering sizes?{' '}
+        <a href="/contact-us/">Call the shop</a> — we’re happy to help.
+      </p>
+    </div>
+  </section>
+</SiteLayout>
+
+<script>
+  const root = document.querySelector('[data-menu-tabs]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll('[data-tab]'));
+    const panels = Array.from(root.querySelectorAll('[data-panel]'));
+    const select = root.querySelector('[data-menu-select]');
+
+    const activate = (id) => {
+      tabs.forEach((tab) => {
+        const on = tab.getAttribute('data-tab') === id;
+        tab.classList.toggle('is-active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach((panel) => {
+        const on = panel.getAttribute('data-panel') === id;
+        panel.classList.toggle('is-active', on);
+        panel.hidden = !on;
+      });
+      if (select && select.value !== id) {
+        select.value = id;
+      }
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const id = tab.getAttribute('data-tab');
+        if (id) activate(id);
+      });
+    });
+
+    select?.addEventListener('change', () => {
+      if (select.value) activate(select.value);
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat');
+    if (cat && root.querySelector(`[data-tab="${cat}"]`)) {
+      activate(cat);
+    }
+  }
+</script>

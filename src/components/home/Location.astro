@@ -1,0 +1,41 @@
+---
+import { site, hours } from '../../data/site';
+
+const mapQuery = encodeURIComponent(`${site.address} ${site.addressLine2}`);
+---
+
+<section class="section location-section" id="visit">
+  <div class="container location-grid reveal">
+    <div>
+      <p class="eyebrow">Find Us</p>
+      <h2>Visit Vito’s Pizza in Mechanicsburg</h2>
+      <p class="lead">
+        {site.address}<br />
+        {site.addressLine2}
+      </p>
+      <div class="hero-actions stack-lg">
+        <a class="btn" href={site.mapsUrl} target="_blank" rel="noopener noreferrer">Directions</a>
+        <a class="btn btn-ghost" href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a>
+      </div>
+      <dl class="hours-list">
+        {
+          hours.map((row) => (
+            <div class="hours-row">
+              <dt>{row.day}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="menu-note">Hours can vary on holidays. Call to confirm before you drive over.</p>
+    </div>
+    <div class="map">
+      <iframe
+        title="Vito’s Pizza location"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src={`https://maps.google.com/maps?q=${mapQuery}&t=m&z=15&output=embed&iwloc=near`}
+      ></iframe>
+    </div>
+  </div>
+</section>

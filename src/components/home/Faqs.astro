@@ -1,0 +1,26 @@
+---
+import { faqs } from '../../data/site';
+---
+
+<section class="section faq-section">
+  <div class="container faq-grid reveal">
+    <div class="faq-intro">
+      <p class="eyebrow">FAQs</p>
+      <h2>The questions people actually <span class="accent">ask before they order.</span></h2>
+      <p class="lead">Where you are, what’s on the menu, how to pick it up — answered in plain language.</p>
+    </div>
+    <div class="faq-list">
+      {
+        faqs.map((item, i) => (
+          <details class="faq-item">
+            <summary>
+              <span class="faq-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="faq-q">{item.q}</span>
+            </summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

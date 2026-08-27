@@ -1,0 +1,38 @@
+---
+import { site, socialProof } from '../../data/site';
+---
+
+<section class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <img
+      src={site.heroImage}
+      alt=""
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+    />
+  </div>
+  <p class="hero-watermark" aria-hidden="true">VITO’S</p>
+  <div class="container">
+    <div class="hero-content">
+      <a class="hero-logo" href="/" aria-label={`${site.name} home`}>
+        <img class="logo-for-dark" src={site.logo} alt={site.name} width="1165" height="971" />
+        <img class="logo-for-light" src={site.logoDark} alt={site.name} width="1165" height="971" />
+      </a>
+      <p class="eyebrow">265 Cumberland Pkwy · Mechanicsburg, PA</p>
+      <h1>Local Pizza, Subs &amp; Italian Favorites in Mechanicsburg</h1>
+      <p class="support">
+        Pizza, pastas, subs &amp; salads — pickup and delivery from the shop on Cumberland Pkwy.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order Online</a>
+        <a class="btn btn-ghost" href="/menu/">View Menu</a>
+      </div>
+      <p class="hero-proof">★★★★★ {socialProof.label}</p>
+      <p class="hero-reserve-note">
+        Open today · <a href="/contact-us/">View hours</a> · {site.phone}
+      </p>
+    </div>
+  </div>
+  <span class="hero-scroll" aria-hidden="true">Scroll</span>
+</section>

@@ -1,0 +1,28 @@
+---
+import { site } from '../../data/site';
+
+const tel = `tel:${site.phone.replace(/\s/g, '')}`;
+
+const actions = [
+  { href: site.orderUrl, label: 'Pickup', note: 'Order for the shop', external: true },
+  { href: site.orderUrl, label: 'Delivery', note: 'Brought to your door', external: true },
+  { href: tel, label: 'Call', note: site.phone, external: false },
+  { href: site.mapsUrl, label: 'Directions', note: 'Cumberland Pkwy', external: true },
+];
+---
+
+<section class="quick-actions" aria-label="Quick actions">
+  {
+    actions.map((item) => (
+      <a
+        class="quick-action"
+        href={item.href}
+        target={item.external && item.href.startsWith('http') ? '_blank' : undefined}
+        rel={item.external && item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+      >
+        <strong>{item.label}</strong>
+        <span>{item.note}</span>
+      </a>
+    ))
+  }
+</section>

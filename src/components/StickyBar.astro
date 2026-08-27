@@ -1,0 +1,11 @@
+---
+import { site } from '../data/site';
+
+const tel = `tel:${site.phone.replace(/\s/g, '')}`;
+---
+
+<nav class="sticky-bar" aria-label="Quick order">
+  <a href={tel}>Call</a>
+  <a href="/menu/">Menu</a>
+  <a class="is-order" href={site.orderUrl} target="_blank" rel="noopener noreferrer">Order</a>
+</nav>
